@@ -1,6 +1,6 @@
 //
-//  escchatmailApp.swift
-//  escchatmail
+//  Esc_gmailApp.swift
+//  Esc-gmail
 //
 //  Created by Kevin Thau on 8/24/25.
 //
@@ -10,7 +10,7 @@ import GoogleSignIn
 import BackgroundTasks
 
 @main
-struct escchatmailApp: App {
+struct Esc_gmailApp: App {
     @StateObject private var authManager = AuthenticationManager.shared
     @StateObject private var notificationService = NotificationService.shared
     
