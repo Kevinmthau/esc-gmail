@@ -1,0 +1,607 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F90EDCFF2E5E49F400F4568F /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = F90EDCFE2E5E49F400F4568F /* GoogleSignIn */; };
+		F90EDD012E5E49F400F4568F /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F90EDD002E5E49F400F4568F /* GoogleSignInSwift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F90EDC7A2E5E487E00F4568F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F90EDC602E5E487D00F4568F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F90EDC672E5E487D00F4568F;
+			remoteInfo = "Esc-gmail";
+		};
+		F90EDC842E5E487E00F4568F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F90EDC602E5E487D00F4568F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F90EDC672E5E487D00F4568F;
+			remoteInfo = "Esc-gmail";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		F90EDC682E5E487D00F4568F /* Esc-gmail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Esc-gmail.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F90EDC792E5E487E00F4568F /* Esc-gmailTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Esc-gmailTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F90EDC832E5E487E00F4568F /* Esc-gmailUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Esc-gmailUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		F90EDC6A2E5E487D00F4568F /* Esc-gmail */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Esc-gmail";
+			sourceTree = "<group>";
+		};
+		F90EDC7C2E5E487E00F4568F /* Esc-gmailTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Esc-gmailTests";
+			sourceTree = "<group>";
+		};
+		F90EDC862E5E487E00F4568F /* Esc-gmailUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Esc-gmailUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F90EDC652E5E487D00F4568F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F90EDCFF2E5E49F400F4568F /* GoogleSignIn in Frameworks */,
+				F90EDD012E5E49F400F4568F /* GoogleSignInSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F90EDC762E5E487E00F4568F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F90EDC802E5E487E00F4568F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F90EDC5F2E5E487D00F4568F = {
+			isa = PBXGroup;
+			children = (
+				F90EDC6A2E5E487D00F4568F /* Esc-gmail */,
+				F90EDC7C2E5E487E00F4568F /* Esc-gmailTests */,
+				F90EDC862E5E487E00F4568F /* Esc-gmailUITests */,
+				F90EDC692E5E487D00F4568F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F90EDC692E5E487D00F4568F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F90EDC682E5E487D00F4568F /* Esc-gmail.app */,
+				F90EDC792E5E487E00F4568F /* Esc-gmailTests.xctest */,
+				F90EDC832E5E487E00F4568F /* Esc-gmailUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F90EDC672E5E487D00F4568F /* Esc-gmail */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F90EDC8C2E5E487E00F4568F /* Build configuration list for PBXNativeTarget "Esc-gmail" */;
+			buildPhases = (
+				F90EDC642E5E487D00F4568F /* Sources */,
+				F90EDC652E5E487D00F4568F /* Frameworks */,
+				F90EDC662E5E487D00F4568F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				F90EDC6A2E5E487D00F4568F /* Esc-gmail */,
+			);
+			name = "Esc-gmail";
+			packageProductDependencies = (
+				F90EDCFE2E5E49F400F4568F /* GoogleSignIn */,
+				F90EDD002E5E49F400F4568F /* GoogleSignInSwift */,
+			);
+			productName = "Esc-gmail";
+			productReference = F90EDC682E5E487D00F4568F /* Esc-gmail.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F90EDC782E5E487E00F4568F /* Esc-gmailTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F90EDC912E5E487E00F4568F /* Build configuration list for PBXNativeTarget "Esc-gmailTests" */;
+			buildPhases = (
+				F90EDC752E5E487E00F4568F /* Sources */,
+				F90EDC762E5E487E00F4568F /* Frameworks */,
+				F90EDC772E5E487E00F4568F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F90EDC7B2E5E487E00F4568F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				F90EDC7C2E5E487E00F4568F /* Esc-gmailTests */,
+			);
+			name = "Esc-gmailTests";
+			packageProductDependencies = (
+			);
+			productName = "Esc-gmailTests";
+			productReference = F90EDC792E5E487E00F4568F /* Esc-gmailTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F90EDC822E5E487E00F4568F /* Esc-gmailUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F90EDC942E5E487E00F4568F /* Build configuration list for PBXNativeTarget "Esc-gmailUITests" */;
+			buildPhases = (
+				F90EDC7F2E5E487E00F4568F /* Sources */,
+				F90EDC802E5E487E00F4568F /* Frameworks */,
+				F90EDC812E5E487E00F4568F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F90EDC852E5E487E00F4568F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				F90EDC862E5E487E00F4568F /* Esc-gmailUITests */,
+			);
+			name = "Esc-gmailUITests";
+			packageProductDependencies = (
+			);
+			productName = "Esc-gmailUITests";
+			productReference = F90EDC832E5E487E00F4568F /* Esc-gmailUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F90EDC602E5E487D00F4568F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 1640;
+				TargetAttributes = {
+					F90EDC672E5E487D00F4568F = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					F90EDC782E5E487E00F4568F = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = F90EDC672E5E487D00F4568F;
+					};
+					F90EDC822E5E487E00F4568F = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = F90EDC672E5E487D00F4568F;
+					};
+				};
+			};
+			buildConfigurationList = F90EDC632E5E487D00F4568F /* Build configuration list for PBXProject "Esc-gmail" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F90EDC5F2E5E487D00F4568F;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F90EDCFD2E5E49F400F4568F /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = F90EDC692E5E487D00F4568F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F90EDC672E5E487D00F4568F /* Esc-gmail */,
+				F90EDC782E5E487E00F4568F /* Esc-gmailTests */,
+				F90EDC822E5E487E00F4568F /* Esc-gmailUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F90EDC662E5E487D00F4568F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F90EDC772E5E487E00F4568F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F90EDC812E5E487E00F4568F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F90EDC642E5E487D00F4568F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F90EDC752E5E487E00F4568F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F90EDC7F2E5E487E00F4568F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F90EDC7B2E5E487E00F4568F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F90EDC672E5E487D00F4568F /* Esc-gmail */;
+			targetProxy = F90EDC7A2E5E487E00F4568F /* PBXContainerItemProxy */;
+		};
+		F90EDC852E5E487E00F4568F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F90EDC672E5E487D00F4568F /* Esc-gmail */;
+			targetProxy = F90EDC842E5E487E00F4568F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		F90EDC8D2E5E487E00F4568F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Esc-gmail/escchatmail.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3JXY2MS2Y3;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mushpot.Esc-gmail";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F90EDC8E2E5E487E00F4568F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Esc-gmail/escchatmail.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3JXY2MS2Y3;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mushpot.Esc-gmail";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F90EDC8F2E5E487E00F4568F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 3JXY2MS2Y3;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F90EDC902E5E487E00F4568F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 3JXY2MS2Y3;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F90EDC922E5E487E00F4568F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3JXY2MS2Y3;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mushpot.Esc-gmailTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Esc-gmail.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Esc-gmail";
+			};
+			name = Debug;
+		};
+		F90EDC932E5E487E00F4568F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3JXY2MS2Y3;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mushpot.Esc-gmailTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Esc-gmail.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Esc-gmail";
+			};
+			name = Release;
+		};
+		F90EDC952E5E487E00F4568F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3JXY2MS2Y3;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mushpot.Esc-gmailUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Esc-gmail";
+			};
+			name = Debug;
+		};
+		F90EDC962E5E487E00F4568F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3JXY2MS2Y3;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mushpot.Esc-gmailUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Esc-gmail";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F90EDC632E5E487D00F4568F /* Build configuration list for PBXProject "Esc-gmail" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F90EDC8F2E5E487E00F4568F /* Debug */,
+				F90EDC902E5E487E00F4568F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F90EDC8C2E5E487E00F4568F /* Build configuration list for PBXNativeTarget "Esc-gmail" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F90EDC8D2E5E487E00F4568F /* Debug */,
+				F90EDC8E2E5E487E00F4568F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F90EDC912E5E487E00F4568F /* Build configuration list for PBXNativeTarget "Esc-gmailTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F90EDC922E5E487E00F4568F /* Debug */,
+				F90EDC932E5E487E00F4568F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F90EDC942E5E487E00F4568F /* Build configuration list for PBXNativeTarget "Esc-gmailUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F90EDC952E5E487E00F4568F /* Debug */,
+				F90EDC962E5E487E00F4568F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F90EDCFD2E5E49F400F4568F /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F90EDCFE2E5E49F400F4568F /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F90EDCFD2E5E49F400F4568F /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		F90EDD002E5E49F400F4568F /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F90EDCFD2E5E49F400F4568F /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = F90EDC602E5E487D00F4568F /* Project object */;
+}
