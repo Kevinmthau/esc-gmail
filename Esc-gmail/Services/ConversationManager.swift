@@ -194,10 +194,10 @@ class ConversationManager: ObservableObject {
         )
     }
     
-    func sendMessage(to recipient: String, cc: String? = nil, subject: String, body: String, inReplyTo threadId: String? = nil) async -> EmailMessage? {
+    func sendMessage(to recipient: String, cc: String? = nil, subject: String, body: String, attachments: [AttachmentItem] = [], inReplyTo threadId: String? = nil) async -> EmailMessage? {
         do {
             // Send the message
-            try await gmailService.sendMessage(to: recipient, cc: cc, subject: subject, body: body)
+            try await gmailService.sendMessage(to: recipient, cc: cc, subject: subject, body: body, attachments: attachments)
             
             // Wait a moment for Gmail to process
             try await Task.sleep(nanoseconds: 1_000_000_000) // 1 second
@@ -254,7 +254,15 @@ class ConversationManager: ObservableObject {
                     snippet: String(body.prefix(100)),
                     date: Date(),
                     isRead: true,
-                    labelIds: ["SENT"]
+                    labelIds: ["SENT"],
+                    attachments: attachments.map { attachment in
+                        MessageAttachment(
+                            filename: attachment.fileName,
+                            mimeType: attachment.mimeType,
+                            size: attachment.fileSize,
+                            attachmentId: nil
+                        )
+                    }
                 )
             }
             
@@ -340,7 +348,8 @@ class ConversationManager: ObservableObject {
                     snippet: threads[index].messages[i].snippet,
                     date: threads[index].messages[i].date,
                     isRead: true,
-                    labelIds: threads[index].messages[i].labelIds
+                    labelIds: threads[index].messages[i].labelIds,
+                    attachments: threads[index].messages[i].attachments
                 )
             }
         }

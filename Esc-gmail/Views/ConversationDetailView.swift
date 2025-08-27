@@ -6,8 +6,10 @@ struct ConversationDetailView: View {
     @StateObject private var contactsManager = ContactsManager.shared
     @State private var messages: [EmailMessage] = []
     @State private var messageText = ""
+    @State private var attachments: [AttachmentItem] = []
     @State private var isKeyboardVisible = false
     @State private var navigationTitle = ""
+    @State private var showingAttachmentPicker = false
     @FocusState private var isTextFieldFocused: Bool
     
     var body: some View {
@@ -34,11 +36,19 @@ struct ConversationDetailView: View {
             
             Divider()
             
-            MessageInputView(text: $messageText, isTextFieldFocused: _isTextFieldFocused) {
-                Task {
-                    await sendMessage()
+            MessageInputView(
+                text: $messageText,
+                attachments: $attachments,
+                onSend: {
+                    Task {
+                        await sendMessage()
+                    }
+                },
+                onAttachmentAdd: {
+                    showingAttachmentPicker = true
                 }
-            }
+            )
+            .focused($isTextFieldFocused)
         }
         .navigationTitle(navigationTitle.isEmpty ? getNavigationTitle() : navigationTitle)
         .navigationBarTitleDisplayMode(.inline)
@@ -61,6 +71,12 @@ struct ConversationDetailView: View {
         }
         .task {
             await markMessagesAsRead()
+        }
+        .sheet(isPresented: $showingAttachmentPicker) {
+            AttachmentPickerView(
+                isPresented: $showingAttachmentPicker,
+                attachments: $attachments
+            )
         }
     }
     
@@ -131,10 +147,12 @@ struct ConversationDetailView: View {
     
     @MainActor
     private func sendMessage() async {
-        guard !messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+        guard !messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !attachments.isEmpty else { return }
         
         let text = messageText
+        let messageAttachments = attachments
         messageText = ""
+        attachments = []
         
         // Determine recipients and subject
         guard let lastMessage = messages.last else { return }
@@ -208,6 +226,7 @@ struct ConversationDetailView: View {
             cc: ccRecipients,
             subject: subject,
             body: text,
+            attachments: messageAttachments,
             inReplyTo: thread.id
         )
     }
@@ -219,72 +238,112 @@ struct MessageBubble: View {
     @StateObject private var contactsManager = ContactsManager.shared
     
     var body: some View {
-        HStack(alignment: .bottom, spacing: 8) {
-            if message.isFromMe {
-                Spacer(minLength: 60)
-            } else {
-                // Show group icon for group conversations, contact photo for individual
-                if thread.isGroupConversation {
-                    Circle()
-                        .fill(backgroundColorForGroup(thread.id))
-                        .frame(width: 30, height: 30)
-                        .overlay(
-                            Image(systemName: "person.3.fill")
-                                .font(.system(size: 13))
-                                .foregroundColor(.white)
-                        )
-                } else if let contactImage = contactsManager.getContactImage(for: message.fromEmail) {
-                    contactImage
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 30, height: 30)
-                        .clipShape(Circle())
-                } else {
-                    Circle()
-                        .fill(backgroundColorForEmail(message.fromEmail))
-                        .frame(width: 30, height: 30)
-                        .overlay(
-                            Text(contactsManager.getContactInitials(for: message.fromEmail))
-                                .font(.caption2)
-                                .fontWeight(.medium)
-                                .foregroundColor(.white)
-                        )
+        VStack(spacing: 8) {
+            // Show attachments above the message bubble
+            if !message.attachments.isEmpty {
+                HStack {
+                    if message.isFromMe {
+                        Spacer(minLength: 60)
+                    }
+                    
+                    MessageAttachmentsView(
+                        attachments: message.attachments,
+                        isFromMe: message.isFromMe,
+                        messageId: message.id
+                    )
+                    
+                    if !message.isFromMe {
+                        Spacer(minLength: 60)
+                    }
                 }
             }
             
-            VStack(alignment: message.isFromMe ? .trailing : .leading, spacing: 4) {
-                if !message.isFromMe {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(contactsManager.getContactName(for: message.fromEmail) ?? message.from)
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                        
-                        // Show CC recipients if present
-                        if let cc = message.cc, !cc.isEmpty, thread.isGroupConversation {
-                            Text("CC: \(formatRecipients(cc))")
-                                .font(.caption2)
-                                .foregroundColor(Color.secondary.opacity(0.7))
-                        }
+            // Only show message bubble if there's actual text content
+            if !cleanMessageBody(message.body).isEmpty {
+                HStack(alignment: .bottom, spacing: 8) {
+                if message.isFromMe {
+                    Spacer(minLength: 60)
+                } else {
+                    // Show group icon for group conversations, contact photo for individual
+                    if thread.isGroupConversation {
+                        Circle()
+                            .fill(backgroundColorForGroup(thread.id))
+                            .frame(width: 30, height: 30)
+                            .overlay(
+                                Image(systemName: "person.3.fill")
+                                    .font(.system(size: 13))
+                                    .foregroundColor(.white)
+                            )
+                    } else if let contactImage = contactsManager.getContactImage(for: message.fromEmail) {
+                        contactImage
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 30, height: 30)
+                            .clipShape(Circle())
+                    } else {
+                        Circle()
+                            .fill(backgroundColorForEmail(message.fromEmail))
+                            .frame(width: 30, height: 30)
+                            .overlay(
+                                Text(contactsManager.getContactInitials(for: message.fromEmail))
+                                    .font(.caption2)
+                                    .fontWeight(.medium)
+                                    .foregroundColor(.white)
+                            )
                     }
                 }
                 
-                Text(cleanMessageBody(message.body))
-                    .font(.body)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
-                    .background(
-                        RoundedRectangle(cornerRadius: 18)
-                            .fill(message.isFromMe ? Color.blue : Color(.systemGray5))
-                    )
-                    .foregroundColor(message.isFromMe ? .white : .primary)
-                
-                Text(formatTime(message.date))
-                    .font(.caption2)
-                    .foregroundColor(.secondary)
-            }
+                VStack(alignment: message.isFromMe ? .trailing : .leading, spacing: 4) {
+                    if !message.isFromMe {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(contactsManager.getContactName(for: message.fromEmail) ?? message.from)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            
+                            // Show CC recipients if present
+                            if let cc = message.cc, !cc.isEmpty, thread.isGroupConversation {
+                                Text("CC: \(formatRecipients(cc))")
+                                    .font(.caption2)
+                                    .foregroundColor(Color.secondary.opacity(0.7))
+                            }
+                        }
+                    }
+                    
+                    Text(cleanMessageBody(message.body))
+                        .font(.body)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 18)
+                                .fill(message.isFromMe ? Color.blue : Color(.systemGray5))
+                        )
+                        .foregroundColor(message.isFromMe ? .white : .primary)
+                    
+                    Text(formatTime(message.date))
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
             
             if !message.isFromMe {
                 Spacer(minLength: 60)
+            }
+            }
+            } else if !message.attachments.isEmpty {
+                // If there's no text but there are attachments, still show timestamp
+                HStack {
+                    if message.isFromMe {
+                        Spacer()
+                    }
+                    
+                    Text(formatTime(message.date))
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                        .padding(.horizontal, message.isFromMe ? 12 : 68)
+                    
+                    if !message.isFromMe {
+                        Spacer()
+                    }
+                }
             }
         }
     }
@@ -378,47 +437,4 @@ struct MessageBubble: View {
     }
 }
 
-struct MessageInputView: View {
-    @Binding var text: String
-    @FocusState var isTextFieldFocused: Bool
-    let onSend: () -> Void
-    
-    var body: some View {
-        HStack(spacing: 8) {
-            Button(action: {}) {
-                Image(systemName: "plus")
-                    .font(.system(size: 22))
-                    .foregroundColor(.blue)
-            }
-            
-            HStack {
-                TextField("iMessage", text: $text, axis: .vertical)
-                    .textFieldStyle(PlainTextFieldStyle())
-                    .lineLimit(1...5)
-                    .focused($isTextFieldFocused)
-                    .onSubmit {
-                        if !text.isEmpty {
-                            onSend()
-                        }
-                    }
-            }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
-            .background(
-                RoundedRectangle(cornerRadius: 18)
-                    .stroke(Color(.systemGray4), lineWidth: 1)
-            )
-            
-            Button(action: onSend) {
-                Image(systemName: "arrow.up.circle.fill")
-                    .font(.system(size: 32))
-                    .foregroundColor(text.isEmpty ? .gray : .blue)
-            }
-            .disabled(text.isEmpty)
-        }
-        .padding(.horizontal)
-        .padding(.vertical, 8)
-        .background(Color(.systemBackground))
-    }
-}
 

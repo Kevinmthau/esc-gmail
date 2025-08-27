@@ -14,6 +14,7 @@ struct EmailMessage: Identifiable, Codable, Hashable {
     let date: Date
     let isRead: Bool
     let labelIds: [String]
+    let attachments: [MessageAttachment]
     
     var isFromMe: Bool {
         fromEmail.lowercased() == AuthenticationManager.shared.userEmail?.lowercased()
@@ -66,6 +67,13 @@ struct EmailMessage: Identifiable, Codable, Hashable {
     static func == (lhs: EmailMessage, rhs: EmailMessage) -> Bool {
         lhs.id == rhs.id
     }
+}
+
+struct MessageAttachment: Codable, Hashable {
+    let filename: String
+    let mimeType: String
+    let size: Int?
+    let attachmentId: String?
 }
 
 struct EmailThread: Identifiable {

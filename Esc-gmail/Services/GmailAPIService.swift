@@ -102,8 +102,14 @@ class GmailAPIService {
         return thread.messages.map { $0.toEmailMessage() }
     }
     
-    func sendMessage(to: String, cc: String? = nil, subject: String, body: String) async throws {
-        let message = createMimeMessage(to: to, cc: cc, subject: subject, body: body)
+    func sendMessage(to: String, cc: String? = nil, subject: String, body: String, attachments: [AttachmentItem] = []) async throws {
+        let message: String
+        if attachments.isEmpty {
+            message = createMimeMessage(to: to, cc: cc, subject: subject, body: body)
+        } else {
+            message = createMultipartMimeMessage(to: to, cc: cc, subject: subject, body: body, attachments: attachments)
+        }
+        
         let rawMessage = message.data(using: .utf8)?.base64EncodedString() ?? ""
         
         let requestBody = ["raw": rawMessage.replacingOccurrences(of: "+", with: "-")
@@ -128,6 +134,29 @@ class GmailAPIService {
     
     func deleteMessage(messageId: String) async throws {
         _ = try await makeRequest(endpoint: "users/me/messages/\(messageId)/trash", method: "POST")
+    }
+    
+    func getAttachment(messageId: String, attachmentId: String) async throws -> Data {
+        let endpoint = "users/me/messages/\(messageId)/attachments/\(attachmentId)"
+        let data = try await makeRequest(endpoint: endpoint)
+        
+        struct AttachmentResponse: Codable {
+            let size: Int
+            let data: String
+        }
+        
+        let response = try JSONDecoder().decode(AttachmentResponse.self, from: data)
+        
+        // Decode base64 data
+        let base64 = response.data
+            .replacingOccurrences(of: "-", with: "+")
+            .replacingOccurrences(of: "_", with: "/")
+        
+        guard let attachmentData = Data(base64Encoded: base64, options: .ignoreUnknownCharacters) else {
+            throw GmailAPIError.decodingError
+        }
+        
+        return attachmentData
     }
     
     func archiveThread(threadId: String) async throws {
@@ -155,6 +184,53 @@ class GmailAPIService {
         
         \(body)
         """
+        return message
+    }
+    
+    private func createMultipartMimeMessage(to: String, cc: String? = nil, subject: String, body: String, attachments: [AttachmentItem]) -> String {
+        let from = AuthenticationManager.shared.userEmail ?? ""
+        let boundary = "boundary_\(UUID().uuidString)"
+        
+        var message = """
+        From: \(from)
+        To: \(to)
+        """
+        
+        if let cc = cc, !cc.isEmpty {
+            message += "\nCc: \(cc)"
+        }
+        
+        message += """
+        
+        Subject: \(subject)
+        MIME-Version: 1.0
+        Content-Type: multipart/mixed; boundary="\(boundary)"
+        
+        --\(boundary)
+        Content-Type: text/plain; charset="UTF-8"
+        Content-Transfer-Encoding: 7bit
+        
+        \(body)
+        
+        """
+        
+        // Add attachments
+        for attachment in attachments {
+            let encodedData = attachment.data.base64EncodedString(options: [.lineLength64Characters, .endLineWithLineFeed])
+            
+            message += """
+            --\(boundary)
+            Content-Type: \(attachment.mimeType); name="\(attachment.fileName)"
+            Content-Disposition: attachment; filename="\(attachment.fileName)"
+            Content-Transfer-Encoding: base64
+            
+            \(encodedData)
+            
+            """
+        }
+        
+        message += "--\(boundary)--"
+        
         return message
     }
 }
@@ -221,6 +297,8 @@ struct GmailMessage: Codable {
             messageDate = dateFormatter.date(from: dateHeader) ?? Date()
         }
         
+        let attachments = extractAttachments(from: payload)
+        
         return EmailMessage(
             id: id,
             threadId: threadId,
@@ -234,7 +312,8 @@ struct GmailMessage: Codable {
             snippet: snippet,
             date: messageDate,
             isRead: !(labelIds?.contains("UNREAD") ?? false),
-            labelIds: labelIds ?? []
+            labelIds: labelIds ?? [],
+            attachments: attachments
         )
     }
     
@@ -252,22 +331,105 @@ struct GmailMessage: Codable {
         return string
     }
     
+    private func extractAttachments(from payload: Payload) -> [MessageAttachment] {
+        var attachments: [MessageAttachment] = []
+        
+        func processPartForAttachments(_ part: Part) {
+            // Check if this part has a filename (indicates an attachment)
+            if let filename = part.filename, !filename.isEmpty {
+                // Get size from headers if available
+                var size: Int? = nil
+                if let contentLengthHeader = part.headers?.first(where: { $0.name.lowercased() == "content-length" }) {
+                    size = Int(contentLengthHeader.value)
+                } else if let bodySize = part.body?.size {
+                    size = bodySize
+                }
+                
+                attachments.append(MessageAttachment(
+                    filename: filename,
+                    mimeType: part.mimeType,
+                    size: size,
+                    attachmentId: part.body?.attachmentId
+                ))
+            }
+            
+            // Recursively process nested parts
+            if let nestedParts = part.parts {
+                for nestedPart in nestedParts {
+                    processPartForAttachments(nestedPart)
+                }
+            }
+        }
+        
+        // Process all parts
+        if let parts = payload.parts {
+            for part in parts {
+                processPartForAttachments(part)
+            }
+        }
+        
+        return attachments
+    }
+    
     private func extractBody(from payload: Payload) -> String {
+        // Helper function to recursively find text content
+        func findTextContent(in part: Part) -> String? {
+            // Check if this part contains text content directly
+            if part.mimeType == "text/plain", let data = part.body?.data {
+                return decodeBase64(data)
+            }
+            
+            // Recursively check nested parts for multipart messages
+            if let nestedParts = part.parts {
+                // First pass: look for text/plain
+                for nestedPart in nestedParts {
+                    if let text = findTextContent(in: nestedPart) {
+                        return text
+                    }
+                }
+            }
+            
+            return nil
+        }
+        
+        // Helper function to recursively find HTML content
+        func findHtmlContent(in part: Part) -> String? {
+            // Check if this part contains HTML content directly
+            if part.mimeType == "text/html", let data = part.body?.data {
+                let html = decodeBase64(data)
+                return stripHTML(html)
+            }
+            
+            // Recursively check nested parts for multipart messages
+            if let nestedParts = part.parts {
+                for nestedPart in nestedParts {
+                    if let html = findHtmlContent(in: nestedPart) {
+                        return html
+                    }
+                }
+            }
+            
+            return nil
+        }
+        
+        // First check if the body is directly in the payload (simple messages)
         if let data = payload.body?.data {
             return decodeBase64(data)
         }
         
+        // For multipart messages, recursively search for text content
         if let parts = payload.parts {
+            // First pass: look for text/plain content (preferred)
             for part in parts {
-                if part.mimeType == "text/plain", let data = part.body?.data {
-                    return decodeBase64(data)
+                if let text = findTextContent(in: part) {
+                    return text
                 }
             }
             
+            // Second pass: look for text/html content as fallback
             for part in parts {
-                if part.mimeType == "text/html", let data = part.body?.data {
-                    let html = decodeBase64(data)
-                    return stripHTML(html)
+                if let html = findHtmlContent(in: part) {
+                    return html
                 }
             }
         }
@@ -333,10 +495,16 @@ struct Header: Codable {
 }
 
 struct Body: Codable {
+    let size: Int?
     let data: String?
+    let attachmentId: String?
 }
 
 struct Part: Codable {
+    let partId: String?
     let mimeType: String
+    let filename: String?
+    let headers: [Header]?
     let body: Body?
+    let parts: [Part]?
 }

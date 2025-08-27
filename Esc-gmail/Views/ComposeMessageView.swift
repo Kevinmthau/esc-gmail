@@ -9,8 +9,10 @@ struct ComposeMessageView: View {
     @State private var recipientSearchText = ""
     @State private var selectedRecipients: [RecipientItem] = []
     @State private var messageBody = ""
+    @State private var attachments: [AttachmentItem] = []
     @State private var isSending = false
     @State private var showingContactResults = false
+    @State private var showingAttachmentPicker = false
     @State private var searchResults: [CNContact] = []
     @FocusState private var focusedField: Field?
     
@@ -112,16 +114,20 @@ struct ComposeMessageView: View {
                     VStack {
                         Spacer()
                         
-                        MessageComposer(
-                            text: $messageBody, 
-                            focusedField: _focusedField,
+                        MessageInputView(
+                            text: $messageBody,
+                            attachments: $attachments,
                             isEnabled: !selectedRecipients.isEmpty,
                             onSend: {
                                 Task {
                                     await sendMessage()
                                 }
+                            },
+                            onAttachmentAdd: {
+                                showingAttachmentPicker = true
                             }
                         )
+                        .focused($focusedField, equals: .body)
                     }
                 }
             }
@@ -147,6 +153,12 @@ struct ComposeMessageView: View {
                         .shadow(radius: 5)
                 }
             }
+        }
+        .sheet(isPresented: $showingAttachmentPicker) {
+            AttachmentPickerView(
+                isPresented: $showingAttachmentPicker,
+                attachments: $attachments
+            )
         }
         .onAppear {
             focusedField = .recipient
@@ -215,7 +227,8 @@ struct ComposeMessageView: View {
             to: recipientEmails,
             cc: nil,
             subject: "",
-            body: messageBody
+            body: messageBody,
+            attachments: attachments
         )
         
         if sentMessage != nil {
@@ -381,46 +394,3 @@ struct ContactSearchRow: View {
     }
 }
 
-struct MessageComposer: View {
-    @Binding var text: String
-    @FocusState var focusedField: ComposeMessageView.Field?
-    let isEnabled: Bool
-    let onSend: () -> Void
-    
-    var body: some View {
-        HStack(spacing: 8) {
-            Button(action: {}) {
-                Image(systemName: "plus")
-                    .font(.system(size: 22))
-                    .foregroundColor(.blue)
-            }
-            
-            HStack {
-                TextField("iMessage", text: $text, axis: .vertical)
-                    .textFieldStyle(PlainTextFieldStyle())
-                    .lineLimit(1...10)
-                    .focused($focusedField, equals: .body)
-                    .onSubmit {
-                        if !text.isEmpty && isEnabled {
-                            onSend()
-                        }
-                    }
-            }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
-            .background(
-                RoundedRectangle(cornerRadius: 18)
-                    .stroke(Color(.systemGray4), lineWidth: 1)
-            )
-            
-            Button(action: onSend) {
-                Image(systemName: "arrow.up.circle.fill")
-                    .font(.system(size: 32))
-                    .foregroundColor(text.isEmpty || !isEnabled ? .gray : .blue)
-            }
-            .disabled(text.isEmpty || !isEnabled)
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 8)
-    }
-}
