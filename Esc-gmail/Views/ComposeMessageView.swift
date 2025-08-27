@@ -112,7 +112,16 @@ struct ComposeMessageView: View {
                     VStack {
                         Spacer()
                         
-                        MessageComposer(text: $messageBody, focusedField: _focusedField)
+                        MessageComposer(
+                            text: $messageBody, 
+                            focusedField: _focusedField,
+                            isEnabled: !selectedRecipients.isEmpty,
+                            onSend: {
+                                Task {
+                                    await sendMessage()
+                                }
+                            }
+                        )
                     }
                 }
             }
@@ -123,15 +132,6 @@ struct ComposeMessageView: View {
                     Button("Cancel") {
                         dismiss()
                     }
-                }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Send") {
-                        Task {
-                            await sendMessage()
-                        }
-                    }
-                    .disabled(selectedRecipients.isEmpty || messageBody.isEmpty || isSending)
                 }
             }
             .disabled(isSending)
@@ -384,6 +384,8 @@ struct ContactSearchRow: View {
 struct MessageComposer: View {
     @Binding var text: String
     @FocusState var focusedField: ComposeMessageView.Field?
+    let isEnabled: Bool
+    let onSend: () -> Void
     
     var body: some View {
         HStack(spacing: 8) {
@@ -398,6 +400,11 @@ struct MessageComposer: View {
                     .textFieldStyle(PlainTextFieldStyle())
                     .lineLimit(1...10)
                     .focused($focusedField, equals: .body)
+                    .onSubmit {
+                        if !text.isEmpty && isEnabled {
+                            onSend()
+                        }
+                    }
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
@@ -406,11 +413,12 @@ struct MessageComposer: View {
                     .stroke(Color(.systemGray4), lineWidth: 1)
             )
             
-            Button(action: {}) {
-                Image(systemName: "mic.fill")
-                    .font(.system(size: 22))
-                    .foregroundColor(.blue)
+            Button(action: onSend) {
+                Image(systemName: "arrow.up.circle.fill")
+                    .font(.system(size: 32))
+                    .foregroundColor(text.isEmpty || !isEnabled ? .gray : .blue)
             }
+            .disabled(text.isEmpty || !isEnabled)
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
