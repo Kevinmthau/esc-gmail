@@ -148,6 +148,63 @@ class ContactsManager: ObservableObject {
         contactsCache.removeAll()
     }
     
+    // Search contacts by name or email (async to avoid blocking main thread)
+    func searchContacts(query: String) async -> [CNContact] {
+        guard authorizationStatus == .authorized else { return [] }
+        guard !query.isEmpty else { return [] }
+        
+        let store = contactStore  // Capture the store before detached task
+        
+        return await withCheckedContinuation { continuation in
+            Task.detached {
+                let keysToFetch = [
+                    CNContactGivenNameKey,
+                    CNContactFamilyNameKey,
+                    CNContactEmailAddressesKey,
+                    CNContactPhoneNumbersKey,
+                    CNContactThumbnailImageDataKey,
+                    CNContactImageDataAvailableKey
+                ] as [CNKeyDescriptor]
+                
+                var results: [CNContact] = []
+                
+                do {
+                    // Search by name
+                    let namePredicate = CNContact.predicateForContacts(matchingName: query)
+                    let nameContacts = try store.unifiedContacts(matching: namePredicate, keysToFetch: keysToFetch)
+                    results.append(contentsOf: nameContacts)
+                    
+                    // Also search all contacts and filter by email containing query
+                    let request = CNContactFetchRequest(keysToFetch: keysToFetch)
+                    try store.enumerateContacts(with: request) { contact, _ in
+                        // Check if email contains query
+                        for email in contact.emailAddresses {
+                            let emailString = email.value as String
+                            if emailString.lowercased().contains(query.lowercased()) {
+                                if !results.contains(where: { $0.identifier == contact.identifier }) {
+                                    results.append(contact)
+                                }
+                                break
+                            }
+                        }
+                        
+                        // Check if name contains query (for partial matches not caught by predicate)
+                        let fullName = "\(contact.givenName) \(contact.familyName)".lowercased()
+                        if fullName.contains(query.lowercased()) {
+                            if !results.contains(where: { $0.identifier == contact.identifier }) {
+                                results.append(contact)
+                            }
+                        }
+                    }
+                } catch {
+                    print("Error searching contacts: \(error)")
+                }
+                
+                continuation.resume(returning: results)
+            }
+        }
+    }
+    
     // Batch fetch for performance
     func preloadContacts(for emails: [String]) {
         guard authorizationStatus == .authorized else { return }

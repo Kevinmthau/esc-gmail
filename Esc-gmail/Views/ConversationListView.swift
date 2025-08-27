@@ -23,7 +23,7 @@ struct ConversationListView: View {
                                 .font(.headline)
                                 .foregroundColor(.secondary)
                             
-                            if conversationManager.syncProgress > 0 && conversationManager.syncProgress < 1 {
+                            if conversationManager.syncProgress > 0 && conversationManager.syncProgress < 1 && !conversationManager.syncProgress.isNaN && !conversationManager.syncProgress.isInfinite {
                                 ProgressView(value: conversationManager.syncProgress)
                                     .progressViewStyle(LinearProgressViewStyle())
                                     .padding(.horizontal, 40)

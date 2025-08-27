@@ -159,7 +159,9 @@ class ConversationManager: ObservableObject {
             }
             
             loadedCount += batch.count
-            syncProgress = Double(loadedCount) / Double(totalCount)
+            let progress = totalCount > 0 ? Double(loadedCount) / Double(totalCount) : 0.0
+            // Ensure progress is valid
+            syncProgress = progress.isNaN || progress.isInfinite ? 0.0 : min(max(progress, 0.0), 1.0)
             loadingProgress = "Loading conversations... \(loadedCount)/\(totalCount)"
             
             // Update threads periodically for better UX
