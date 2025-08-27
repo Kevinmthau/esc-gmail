@@ -82,6 +82,12 @@ class AttachmentManager: NSObject, ObservableObject {
         
         // If still too large, resize the image
         let maxDimension: CGFloat = 2048
+        
+        // Prevent division by zero that causes NaN
+        guard image.size.width > 0, image.size.height > 0 else {
+            return nil
+        }
+        
         let scale = min(maxDimension / image.size.width, maxDimension / image.size.height)
         
         if scale < 1.0 {
