@@ -74,6 +74,22 @@ struct MessageAttachment: Codable, Hashable {
     let mimeType: String
     let size: Int?
     let attachmentId: String?
+    
+    var type: AttachmentType {
+        AttachmentType(mimeType: mimeType)
+    }
+    
+    var fileIcon: String {
+        type.iconName
+    }
+    
+    var isPreviewable: Bool {
+        type.isPreviewable
+    }
+    
+    var requiresDownload: Bool {
+        type.requiresDownload
+    }
 }
 
 struct EmailThread: Identifiable {
